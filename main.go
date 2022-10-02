@@ -17,8 +17,11 @@ func main() {
 	c := cron.New() //精确到秒
 
 	//定时任务
-	spec := "0 */2 * * * ?" //cron表达式，每秒一次
-	c.AddFunc(spec, service.Push)
+	_, err := c.AddFunc("0 */2 * * * ?", service.Push)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 	c.Start()
 
 	http.HandleFunc("/", service.IndexHandler)

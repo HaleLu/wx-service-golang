@@ -12,12 +12,18 @@ func Push() {
 	method := "POST"
 
 	payload := strings.NewReader(`{
-	   "touser" : "@all",
-	   "msgtype" : "text",
+	   "touser" : "HaiErYouZhiXingXingKouDai",
 	   "agentid" : 1000002,
-	   "text" : {
-	       "content" : "测试文案"
-	   },
+		"msgtype": "news",
+        "news": {
+	        "articles": [
+	            {
+	                "title": "中秋节礼品领取",
+	                "description": "今年中秋节公司有豪礼相送",
+	                "picurl": "http://res.mail.qq.com/node/ww/wwopenmng/images/independent/doc/test_pic_msg1.png"
+	            }
+	        ]
+	    },
 	   "safe":0,
 	   "enable_id_trans": 0,
 	   "enable_duplicate_check": 0,
