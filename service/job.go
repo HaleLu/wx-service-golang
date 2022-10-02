@@ -32,7 +32,7 @@ func GetAccessToken() (string, error) {
 		fmt.Printf("[Error] err:%v\n", err)
 		return "", err
 	}
-	fmt.Printf("push req:%+v\n", body)
+	fmt.Printf("get token resp:%+v\n", body)
 	return body["access_token"].(string), nil
 }
 
