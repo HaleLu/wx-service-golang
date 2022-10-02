@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"time"
 )
 
 func PushHandler(w http.ResponseWriter, r *http.Request) {
@@ -15,7 +16,7 @@ func PushHandler(w http.ResponseWriter, r *http.Request) {
 	resp := &WechatMsgBody{
 		ToUserName:   req.FromUserName,
 		FromUserName: req.ToUserName,
-		CreateTime:   req.CreateTime + 1,
+		CreateTime:   int(time.Now().Unix()),
 		MsgType:      "text",
 		Content:      "response to " + req.Content,
 	}

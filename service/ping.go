@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"time"
 )
@@ -25,12 +26,23 @@ func PingHandler(w http.ResponseWriter, r *http.Request) {
 		MsgType:      "text",
 		Content:      time.Now().String(),
 	}
+	SendMessage(body)
+	w.Header().Set("content-type", "application/json")
+	w.Write(msg)
+}
+
+func SendMessage(body *WechatMsgBody) {
+	fmt.Printf("SendMessage body:%+v", body)
 	jsonData, _ := json.Marshal(body)
-	_, err = http.Post("http://api.weixin.qq.com/cgi-bin/message/custom/send", "application/json", bytes.NewBuffer(jsonData))
+	resp, err := http.Post("http://api.weixin.qq.com/cgi-bin/message/custom/send", "application/json", bytes.NewBuffer(jsonData))
 	if err != nil {
 		fmt.Printf("http.Post err:%v", err)
 		return
 	}
-	w.Header().Set("content-type", "application/json")
-	w.Write(msg)
+	bodyBytes, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Printf("ioutil.ReadAll err:%v", err)
+		return
+	}
+	fmt.Printf("SendMessage resp:%+v", string(bodyBytes))
 }
