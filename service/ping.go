@@ -39,6 +39,8 @@ func PingHandler(w http.ResponseWriter, r *http.Request) {
 	SendMessage(body)
 	w.Header().Set("content-type", "application/json")
 	w.Write(msg)
+
+	Push()
 }
 
 func SendMessage(body *CustomSendBody) {

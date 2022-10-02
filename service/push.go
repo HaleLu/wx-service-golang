@@ -28,8 +28,6 @@ func PushHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("content-type", "application/json")
 	w.Write(msg)
-
-	Push()
 }
 
 func getRequest(r *http.Request) (*WechatMsgBody, error) {

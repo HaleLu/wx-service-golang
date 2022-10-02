@@ -1,14 +1,52 @@
 package service
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strings"
 )
 
+func GetAccessToken() (string, error) {
+	url := "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=ww06d5d98feda07249&corpsecret=PUE3HYm_PHgGuvUH0lkut57vUzuhcvhmrzSuRyq9IUE"
+	method := "GET"
+
+	client := &http.Client{}
+	req, err := http.NewRequest(method, url, nil)
+
+	if err != nil {
+		fmt.Println(err)
+		return "", err
+	}
+	res, err := client.Do(req)
+	if err != nil {
+		fmt.Println(err)
+		return "", err
+	}
+	defer res.Body.Close()
+
+	decoder := json.NewDecoder(res.Body)
+	body := make(map[string]interface{})
+	if err := decoder.Decode(body); err != nil {
+		fmt.Printf("[Error] err:%v\n", err)
+		return "", err
+	}
+	fmt.Printf("push req:%+v\n", body)
+	return body["access_token"].(string), nil
+}
+
 func Push() {
-	url := "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=z7ING515ZPc2jkrk6vI7_0wBDCuviAc6J9rEPgN0tQBOZ35YLi1VajhS7Wd-7fnc1IjfnP5Zg3asLxJ5uZo9U1SsA5EEjlPvoac1a_b6swB9m4vguuHV_7TPL-WBkBt_1SugpkGutf1vMDbpF9TmCsNCtRLaH9gd1tiom3arzOqpSvv91ERZ5MAmrPkI7tmDkTrLNdph2iMxytTHxOhbJA"
+	token, err := GetAccessToken()
+	if err != nil {
+		token, err = GetAccessToken()
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+	}
+
+	url := "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=" + token
 	method := "POST"
 
 	payload := strings.NewReader(`{
@@ -18,8 +56,8 @@ func Push() {
         "news": {
 	        "articles": [
 	            {
-	                "title": "中秋节礼品领取",
-	                "description": "今年中秋节公司有豪礼相送",
+	                "title": "每日提醒",
+	                "description": "文案",
 	                "picurl": "http://res.mail.qq.com/node/ww/wwopenmng/images/independent/doc/test_pic_msg1.png"
 	            }
 	        ]
