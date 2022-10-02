@@ -19,6 +19,7 @@ func main() {
 	//定时任务
 	spec := "0 */2 * * * ?" //cron表达式，每秒一次
 	c.AddFunc(spec, service.Push)
+	c.Start()
 
 	http.HandleFunc("/", service.IndexHandler)
 	http.HandleFunc("/api/count", service.CounterHandler)
