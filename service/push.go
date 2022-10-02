@@ -7,14 +7,20 @@ import (
 )
 
 func PushHandler(w http.ResponseWriter, r *http.Request) {
-	res := &JsonResult{}
-	content, err := getContent(r)
+	req, err := getRequest(r)
 	if err != nil {
-		res.Code = -1
-		res.ErrorMsg = err.Error()
+		fmt.Fprint(w, "内部错误")
+		return
 	}
-	res.Data = content
-	msg, err := json.Marshal(res)
+
+	resp := &WechatMsgBody{
+		ToUserName:   req.ToUserName,
+		FromUserName: req.FromUserName,
+		CreateTime:   req.CreateTime + 1,
+		MsgType:      "text",
+		Content:      "response to " + req.Content,
+	}
+	msg, err := json.Marshal(resp)
 	if err != nil {
 		fmt.Fprint(w, "内部错误")
 		return
@@ -23,12 +29,12 @@ func PushHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(msg)
 }
 
-func getContent(r *http.Request) (string, error) {
+func getRequest(r *http.Request) (*WechatMsgBody, error) {
 	decoder := json.NewDecoder(r.Body)
-	body := new(WechatMsgRequest)
+	body := new(WechatMsgBody)
 	if err := decoder.Decode(body); err != nil {
-		return "", err
+		return nil, err
 	}
 	defer r.Body.Close()
-	return body.Content, nil
+	return body, nil
 }

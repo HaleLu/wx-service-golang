@@ -7,7 +7,7 @@ type JsonResult struct {
 	Data     interface{} `json:"data"`
 }
 
-type WechatMsgRequest struct {
+type WechatMsgBody struct {
 	ToUserName   string `json:"ToUserName"`
 	FromUserName string `json:"FromUserName"`
 	CreateTime   int    `json:"CreateTime"`
