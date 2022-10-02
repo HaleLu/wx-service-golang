@@ -12,8 +12,6 @@ func PushHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "内部错误")
 		return
 	}
-	fmt.Printf("push req:%+v\n", r)
-	defer fmt.Printf("push resp:%+v\n", w)
 	resp := &WechatMsgBody{
 		ToUserName:   req.ToUserName,
 		FromUserName: req.FromUserName,
@@ -21,6 +19,7 @@ func PushHandler(w http.ResponseWriter, r *http.Request) {
 		MsgType:      "text",
 		Content:      "response to " + req.Content,
 	}
+	fmt.Printf("push req:%+v\n", resp)
 	msg, err := json.Marshal(resp)
 	if err != nil {
 		fmt.Fprint(w, "内部错误")
@@ -37,5 +36,6 @@ func getRequest(r *http.Request) (*WechatMsgBody, error) {
 		return nil, err
 	}
 	defer r.Body.Close()
+	fmt.Printf("push req:%+v\n", body)
 	return body, nil
 }
