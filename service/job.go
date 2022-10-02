@@ -28,7 +28,7 @@ func GetAccessToken() (string, error) {
 
 	decoder := json.NewDecoder(res.Body)
 	body := make(map[string]interface{})
-	if err := decoder.Decode(body); err != nil {
+	if err := decoder.Decode(&body); err != nil {
 		fmt.Printf("[Error] err:%v\n", err)
 		return "", err
 	}
