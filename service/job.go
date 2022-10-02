@@ -46,8 +46,15 @@ func Push() {
 		}
 	}
 
+	weather := GetWeather()
+	daily := weather.Daily[0]
+
 	url := "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=" + token
 	method := "POST"
+
+	desc := "今日气温：" + daily.TempMin + "至" + daily.TempMax + "℃\n" +
+		"白天：" + daily.TextDay +
+		"晚上：" + daily.TextNight
 
 	payload := strings.NewReader(`{
 	   "touser" : "HaiErYouZhiXingXingKouDai",
@@ -56,16 +63,16 @@ func Push() {
         "news": {
 	        "articles": [
 	            {
-	                "title": "每日提醒",
-	                "description": "文案",
+	                "title": "我亲爱的小充电宝，早上好(*´▽｀)ノノ",
+	                "description": "` + desc + `",
 	                "picurl": "http://res.mail.qq.com/node/ww/wwopenmng/images/independent/doc/test_pic_msg1.png"
 	            }
 	        ]
 	    },
 	   "safe":0,
 	   "enable_id_trans": 0,
-	   "enable_duplicate_check": 0,
-	   "duplicate_check_interval": 1800
+	   "enable_duplicate_check": 1,
+	   "duplicate_check_interval": 10
 	}`)
 
 	client := &http.Client{}
