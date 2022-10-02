@@ -13,16 +13,16 @@ func PushHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	resp := &WechatMsgBody{
-		ToUserName:   req.ToUserName,
-		FromUserName: req.FromUserName,
+		ToUserName:   req.FromUserName,
+		FromUserName: req.ToUserName,
 		CreateTime:   req.CreateTime + 1,
 		MsgType:      "text",
 		Content:      "response to " + req.Content,
 	}
-	fmt.Printf("push req:%+v\n", resp)
+	fmt.Printf("push resp:%+v\n", resp)
 	msg, err := json.Marshal(resp)
 	if err != nil {
-		fmt.Fprint(w, "内部错误")
+		fmt.Printf("[Error] err:%v\n", err)
 		return
 	}
 	w.Header().Set("content-type", "application/json")
@@ -33,6 +33,7 @@ func getRequest(r *http.Request) (*WechatMsgBody, error) {
 	decoder := json.NewDecoder(r.Body)
 	body := new(WechatMsgBody)
 	if err := decoder.Decode(body); err != nil {
+		fmt.Printf("[Error] err:%v\n", err)
 		return nil, err
 	}
 	defer r.Body.Close()
