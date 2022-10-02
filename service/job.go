@@ -65,7 +65,7 @@ func Push() {
 	            {
 	                "title": "我亲爱的小充电宝，早上好(*´▽｀)ノノ",
 	                "description": "` + desc + `",
-	                "picurl": "http://res.mail.qq.com/node/ww/wwopenmng/images/independent/doc/test_pic_msg1.png"
+	                "picurl": "https://staticedu-wps.cache.iciba.com/image/4c8ea38265f5eaac6f49936fd14d29f6.jpg"
 	            }
 	        ]
 	    },
