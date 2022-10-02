@@ -9,6 +9,16 @@ import (
 	"time"
 )
 
+type Text struct {
+	Content string `json:"content"`
+}
+
+type CustomSendBody struct {
+	ToUser  string `json:"touser"`
+	MsgType string `json:"msgtype"`
+	Text    Text   `json:"text"`
+}
+
 func PingHandler(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}
 
@@ -19,19 +29,19 @@ func PingHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	body := &WechatMsgBody{
-		ToUserName:   "o3dzp575sUNoB3_KyJj_Aq7ZOJKw",
-		FromUserName: "gh_f61f83ed88cf",
-		CreateTime:   int(time.Now().Unix()),
-		MsgType:      "text",
-		Content:      time.Now().String(),
+	body := &CustomSendBody{
+		ToUser:  "o3dzp575sUNoB3_KyJj_Aq7ZOJKw",
+		MsgType: "text",
+		Text: Text{
+			Content: time.Now().String(),
+		},
 	}
 	SendMessage(body)
 	w.Header().Set("content-type", "application/json")
 	w.Write(msg)
 }
 
-func SendMessage(body *WechatMsgBody) {
+func SendMessage(body *CustomSendBody) {
 	fmt.Printf("SendMessage body:%+v", body)
 	jsonData, _ := json.Marshal(body)
 	resp, err := http.Post("http://api.weixin.qq.com/cgi-bin/message/custom/send", "application/json", bytes.NewBuffer(jsonData))
