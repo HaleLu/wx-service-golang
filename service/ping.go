@@ -42,9 +42,9 @@ func PingHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func SendMessage(body *CustomSendBody) {
-	fmt.Printf("SendMessage body:%+v", body)
+	fmt.Printf("SendMessage body:%+v\n", body)
 	jsonData, _ := json.Marshal(body)
-	resp, err := http.Post("http://api.weixin.qq.com/cgi-bin/message/custom/send", "application/json", bytes.NewBuffer(jsonData))
+	resp, err := http.Post("http://api.weixin.qq.com/cgi-bin/message/custom/send?from_appid=wx5ea4de9d9451abaf", "application/json", bytes.NewBuffer(jsonData))
 	if err != nil {
 		fmt.Printf("http.Post err:%v", err)
 		return
@@ -54,5 +54,5 @@ func SendMessage(body *CustomSendBody) {
 		fmt.Printf("ioutil.ReadAll err:%v", err)
 		return
 	}
-	fmt.Printf("SendMessage resp:%+v", string(bodyBytes))
+	fmt.Printf("SendMessage resp:%+v\n", string(bodyBytes))
 }
