@@ -17,6 +17,7 @@ func main() {
 	http.HandleFunc("/api/count", service.CounterHandler)
 	http.HandleFunc("/api/ping", service.PingHandler)
 	http.HandleFunc("/api/push", service.PushHandler)
+	http.HandleFunc("/WW_verify_TjSQyzeF2ivC2Ma8.txt", service.TxtHandler)
 
 	log.Fatal(http.ListenAndServe(":80", nil))
 }

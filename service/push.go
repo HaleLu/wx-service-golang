@@ -17,7 +17,7 @@ func PushHandler(w http.ResponseWriter, r *http.Request) {
 		ToUserName:   req.FromUserName,
 		FromUserName: req.ToUserName,
 		CreateTime:   int(time.Now().Unix()),
-		MsgType:      "text",
+		MsgType:      "news",
 		Content:      "response to " + req.Content,
 	}
 	fmt.Printf("push resp:%+v\n", resp)
