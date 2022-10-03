@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 	"strings"
+	"time"
 )
 
 func GetAccessToken() (string, error) {
@@ -36,6 +38,16 @@ func GetAccessToken() (string, error) {
 	return body["access_token"].(string), nil
 }
 
+var WeekDayMap = map[string]string{
+	"Monday":    "星期一",
+	"Tuesday":   "星期二",
+	"Wednesday": "星期三",
+	"Thursday":  "星期四",
+	"Friday":    "星期五",
+	"Saturday":  "星期六",
+	"Sunday":    "星期日",
+}
+
 func Push() {
 	token, err := GetAccessToken()
 	if err != nil {
@@ -52,10 +64,15 @@ func Push() {
 	url := "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=" + token
 	method := "POST"
 
-	desc := "今日气温：" + daily.TempMin + "至" + daily.TempMax + "℃\n" +
-		"白天：" + daily.TextDay +
-		"晚上：" + daily.TextNight
+	fallInLoveDay := time.Date(2021, 7, 18, 0, 0, 0, 0, time.Local)
 
+	now := time.Now()
+	desc := "今天是" + now.Format("2006-01-02") + " " + WeekDayMap[now.Weekday().String()] + "\n" +
+		"今日气温：" + daily.TempMin + "至" + daily.TempMax + "℃\n" +
+		"白天天气：" + daily.TextDay + "\n" +
+		"晚间天气：" + daily.TextNight + "\n" +
+		"\n" +
+		"今天是我们在一起的第" + strconv.FormatInt(int64(now.Sub(fallInLoveDay).Hours()/24), 10) + "天，也是我的宝贝最可爱的一天~"
 	payload := strings.NewReader(`{
 	   "touser" : "HaiErYouZhiXingXingKouDai",
 	   "agentid" : 1000002,
