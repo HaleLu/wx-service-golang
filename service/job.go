@@ -74,7 +74,7 @@ func Push() {
 		"\n" +
 		"今天是我们在一起的第" + strconv.FormatInt(int64(now.Sub(fallInLoveDay).Hours()/24), 10) + "天，也是我的宝贝最可爱的一天~"
 	payload := strings.NewReader(`{
-	   "touser" : "HaiErYouZhiXingXingKouDai",
+	   "touser" : "HaiErYouZhiXingXingKouDai|CaoCao",
 	   "agentid" : 1000002,
 		"msgtype": "news",
         "news": {
