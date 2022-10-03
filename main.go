@@ -16,7 +16,7 @@ func main() {
 
 	c := cron.New() //精确到秒
 	//定时任务
-	_, err := c.AddFunc("* 8 * * *", service.Push)
+	_, err := c.AddFunc("0 0 * * *", service.Push)
 	if err != nil {
 		fmt.Println(err)
 		return
