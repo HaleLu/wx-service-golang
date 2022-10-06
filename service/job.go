@@ -95,12 +95,12 @@ func Push() {
 		"今天是我们在一起的第" + strconv.FormatInt(int64(now.Sub(fallInLoveDay).Hours()/24), 10) + "天，也是我的宝贝最可爱的一天~" + "\n" +
 		"\n" +
 		"双子座今日运势：\n" +
-		"综合指数：\n" + newsMap["综合指数"] + "\n" +
-		"爱情指数：\n" + newsMap["爱情指数"] + "\n" +
-		"工作指数：\n" + newsMap["工作指数"] + "\n" +
-		"财运指数：\n" + newsMap["财运指数"] + "\n" +
-		"健康指数：\n" + newsMap["健康指数"] + "\n" +
-		"今日概述：\n" + newsMap["今日概述"] + "\n" +
+		"综合指数：" + newsMap["综合指数"] + "\n" +
+		"爱情指数：" + newsMap["爱情指数"] + "\n" +
+		"工作指数：" + newsMap["工作指数"] + "\n" +
+		"财运指数：" + newsMap["财运指数"] + "\n" +
+		"健康指数：" + newsMap["健康指数"] + "\n" +
+		"今日概述：" + newsMap["今日概述"] + "\n" +
 		"\n" +
 		one.NewsList[0].Word
 
