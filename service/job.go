@@ -59,7 +59,27 @@ func Push() {
 	}
 
 	weather := GetWeather()
+	if weather == nil {
+		fmt.Println("weather == nil")
+		return
+	}
 	daily := weather.Daily[0]
+
+	star := GetStar()
+	if star == nil {
+		fmt.Println("star == nil")
+		return
+	}
+	var newsMap = make(map[string]string)
+	for _, n := range star.NewsList {
+		newsMap[n.Type] = n.Content
+	}
+
+	one := GetOne()
+	if one == nil {
+		fmt.Println("one == nil")
+		return
+	}
 
 	url := "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=" + token
 	method := "POST"
@@ -72,7 +92,18 @@ func Push() {
 		"白天天气：" + daily.TextDay + "\n" +
 		"晚间天气：" + daily.TextNight + "\n" +
 		"\n" +
-		"今天是我们在一起的第" + strconv.FormatInt(int64(now.Sub(fallInLoveDay).Hours()/24), 10) + "天，也是我的宝贝最可爱的一天~"
+		"今天是我们在一起的第" + strconv.FormatInt(int64(now.Sub(fallInLoveDay).Hours()/24), 10) + "天，也是我的宝贝最可爱的一天~" + "\n" +
+		"\n" +
+		"双子座今日运势：\n" +
+		"综合指数：\n" + newsMap["综合指数"] + "\n" +
+		"爱情指数：\n" + newsMap["爱情指数"] + "\n" +
+		"工作指数：\n" + newsMap["工作指数"] + "\n" +
+		"财运指数：\n" + newsMap["财运指数"] + "\n" +
+		"健康指数：\n" + newsMap["健康指数"] + "\n" +
+		"今日概述：\n" + newsMap["今日概述"] + "\n" +
+		"\n" +
+		one.NewsList[0].Word
+
 	payload := strings.NewReader(`{
 	   "touser" : "HaiErYouZhiXingXingKouDai|CaoCao",
 	   "agentid" : 1000002,
@@ -82,7 +113,7 @@ func Push() {
 	            {
 	                "title": "我亲爱的小充电宝，早上好(*´▽｀)ノノ",
 	                "description": "` + desc + `",
-	                "picurl": "https://staticedu-wps.cache.iciba.com/image/4c8ea38265f5eaac6f49936fd14d29f6.jpg"
+	                "picurl": "` + one.NewsList[0].Imgurl + `"
 	            }
 	        ]
 	    },
