@@ -100,7 +100,6 @@ func Push() {
 		"工作指数：" + newsMap["工作指数"] + "\n" +
 		"财运指数：" + newsMap["财运指数"] + "\n" +
 		"健康指数：" + newsMap["健康指数"] + "\n" +
-		"今日概述：" + newsMap["今日概述"] + "\n" +
 		"\n" +
 		one.NewsList[0].Word
 
