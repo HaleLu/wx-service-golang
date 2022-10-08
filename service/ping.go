@@ -29,14 +29,14 @@ func PingHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	body := &CustomSendBody{
-		ToUser:  "o3dzp575sUNoB3_KyJj_Aq7ZOJKw",
-		MsgType: "text",
-		Text: Text{
-			Content: time.Now().String(),
-		},
-	}
-	SendMessage(body)
+	//body := &CustomSendBody{
+	//	ToUser:  "o3dzp575sUNoB3_KyJj_Aq7ZOJKw",
+	//	MsgType: "text",
+	//	Text: Text{
+	//		Content: time.Now().String(),
+	//	},
+	//}
+	//SendMessage(body)
 	w.Header().Set("content-type", "application/json")
 	w.Write(msg)
 
