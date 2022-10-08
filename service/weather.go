@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 )
 
 type DailyWeather struct {
@@ -69,4 +70,36 @@ func GetWeather() *WeatherResponse {
 	}
 	fmt.Printf("weather resp:%+v\n", body)
 	return body
+}
+
+func GetClothesLevel(temp int64) string {
+	if temp > 25 {
+		return "短袖"
+	}
+	if temp > 15 {
+		return "长袖"
+	}
+	if temp > 5 {
+		return "外套"
+	}
+	return "大棉袄"
+}
+
+func GetClothes(minTemp, maxTemp int64) string {
+	maxLevel := GetClothesLevel(maxTemp)
+	minLevel := GetClothesLevel(minTemp)
+	if maxLevel == minLevel {
+		return minLevel
+	}
+	return "白天" + maxLevel + "，夜间" + minLevel
+}
+
+func GetUmbrella(day string, night string) string {
+	if strings.Contains(day, "雨") {
+		return "记得带伞"
+	}
+	if strings.Contains(night, "雨") {
+		return "晚间记得带伞"
+	}
+	return "今日无雨"
 }
